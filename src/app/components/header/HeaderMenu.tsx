@@ -1,8 +1,10 @@
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 
 export const HeaderMenu = (props: { showMenu: boolean }) => {
   const { showMenu } = props;
+  const { isLogin } = useAuth();
 
   const menuList = [
     {
@@ -54,6 +56,7 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
     {
       name: "Nhà Tuyển Dụng",
       link: "#",
+      isLogin: false,
       children: [
         {
           name: "Đăng Nhập",
@@ -81,7 +84,12 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
           {menuList.map((menu, index) => (
             <li
               key={index}
-              className="inline-flex lg:w-auto w-full lg:justify-start justify-between p-[10px] items-center gap-x-[8px] relative group/sub-1 flex-wrap"
+              className={
+                "inline-flex lg:w-auto w-full lg:justify-start justify-between p-[10px] items-center gap-x-[8px] relative group/sub-1 flex-wrap " +
+                (menu.isLogin !== undefined && menu.isLogin !== isLogin
+                  ? "hidden"
+                  : "")
+              }
             >
               <Link
                 href={menu.link}
