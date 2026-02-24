@@ -8,6 +8,7 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { Toaster, toast } from "sonner";
 
 // Register the plugin
 registerPlugin(FilePondPluginFileValidateType, FilePondPluginImagePreview);
@@ -95,17 +96,18 @@ export default function FormProfile() {
       .then((res) => res.json())
       .then((data) => {
         if (data.code == "error") {
-          alert(data.message);
+          toast.error(data.message);
         }
 
         if (data.code == "success") {
-          alert(data.message);
+          toast.success(data.message);
         }
       });
   };
 
   return (
     <>
+      <Toaster position="top-right" richColors />
       {infoUser && (
         <form
           id="profileForm"

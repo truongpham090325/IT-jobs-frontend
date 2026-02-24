@@ -3,6 +3,7 @@
 import JustValidate from "just-validate";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Toaster, toast } from "sonner";
 
 export default function FormRegister() {
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function FormRegister() {
           .then((res) => res.json())
           .then((data) => {
             if (data.code == "error") {
-              alert(data.message);
+              toast.success(data.message);
             }
 
             if (data.code == "success") {
@@ -91,6 +92,7 @@ export default function FormRegister() {
 
   return (
     <>
+      <Toaster position="top-right" richColors />
       <form
         id="registerForm"
         action=""
