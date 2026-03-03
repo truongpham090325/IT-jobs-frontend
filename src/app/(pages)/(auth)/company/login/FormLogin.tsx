@@ -48,7 +48,7 @@ export default function FormLogin() {
           .then((res) => res.json())
           .then((data) => {
             if (data.code == "error") {
-              toast.success(data.message);
+              toast.error(data.message);
             }
 
             if (data.code == "success") {

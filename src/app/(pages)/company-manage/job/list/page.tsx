@@ -1,48 +1,51 @@
 /* eslint-disable @next/next/no-img-element */
-import { Metadata } from "next"
-import Link from "next/link"
-import { FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6"
+import { Metadata } from "next";
+import Link from "next/link";
+import { FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Quản lý công việc",
   description: "Mô tả trang quản lý công việc...",
-}
+};
 
 export default function CompanyManageJobListPage() {
   return (
     <>
       <div className="py-[60px]">
         <div className="container mx-auto px-[16px]">
-          
-        <div className="flex flex-wrap gap-[20px] items-center justify-between mb-[20px]">
-          <h2 className="font-[700] sm:text-[28px] text-[24px] sm:w-auto w-[100%] text-[#121212]">
-            Quản lý công việc
-          </h2>
-          <Link href="#" className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-            Thêm mới
-          </Link>
-        </div>
+          <div className="flex flex-wrap gap-[20px] items-center justify-between mb-[20px]">
+            <h2 className="font-[700] sm:text-[28px] text-[24px] sm:w-auto w-[100%] text-[#121212]">
+              Quản lý công việc
+            </h2>
+            <Link
+              href="/company-manage/job/create"
+              className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
+            >
+              Thêm mới
+            </Link>
+          </div>
 
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
-            <div 
+            <div
               className="border border-[#DEDEDE] rounded-[8px] flex flex-col relative truncate"
               style={{
-                background: "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)"
+                background:
+                  "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)",
               }}
             >
-              <img 
-                src="/assets/images/card-bg.svg" 
-                alt="" 
-                className="absolute top-[0px] left-[0px] w-[100%] h-auto" 
+              <img
+                src="/assets/images/card-bg.svg"
+                alt=""
+                className="absolute top-[0px] left-[0px] w-[100%] h-auto"
               />
-              <div 
-                className="relative mt-[20px] w-[116px] h-[116px] bg-white mx-auto rounded-[8px] p-[10px]" 
+              <div
+                className="relative mt-[20px] w-[116px] h-[116px] bg-white mx-auto rounded-[8px] p-[10px]"
                 style={{
-                  boxShadow: "0px 4px 24px 0px #0000001F"
+                  boxShadow: "0px 4px 24px 0px #0000001F",
                 }}
               >
-                <img 
-                  src="/assets/images/demo-cong-ty-1.png" 
+                <img
+                  src="/assets/images/demo-cong-ty-1.png"
                   alt="Frontend Engineer (ReactJS)"
                   className="w-[100%] h-[100%] object-contain"
                 />
@@ -77,10 +80,16 @@ export default function CompanyManageJobListPage() {
                 </div>
               </div>
               <div className="flex items-center justify-center gap-[12px] mb-[20px]">
-                <Link href="#" className="bg-[#FFB200] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]">
+                <Link
+                  href="#"
+                  className="bg-[#FFB200] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]"
+                >
                   Sửa
                 </Link>
-                <Link href="#" className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
+                <Link
+                  href="#"
+                  className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
+                >
                   Xóa
                 </Link>
               </div>
@@ -88,15 +97,17 @@ export default function CompanyManageJobListPage() {
           </div>
 
           <div className="mt-[30px]">
-            <select name="" className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]">
+            <select
+              name=""
+              className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]"
+            >
               <option value="">Trang 1</option>
               <option value="">Trang 2</option>
               <option value="">Trang 3</option>
             </select>
           </div>
-
         </div>
       </div>
     </>
-  )
+  );
 }

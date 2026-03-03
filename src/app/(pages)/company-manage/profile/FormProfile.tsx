@@ -298,12 +298,6 @@ export default function FormProfile() {
             >
               Mô tả chi tiết
             </label>
-            {/* <textarea
-              name="description"
-              id="description"
-              defaultValue={infoCompany.description}
-              className="w-[100%] h-[350px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
-            ></textarea> */}
             <EditorMCE editorRef={editorRef} value={infoCompany.description} />
           </div>
           <div className="sm:col-span-2">
