@@ -6,18 +6,25 @@ import { FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6";
 
 export const JobList = () => {
   const [jobList, setJobList] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/job/list`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/job/list?page=${page}`, {
       method: "GET",
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(jobList);
         setJobList(data.jobList);
+        setTotalPage(data.totalPage);
       });
-  }, []);
+  }, [page]);
+
+  const handleChange = (event: any) => {
+    const value = event.target.value;
+    setPage(parseInt(value));
+  };
 
   return (
     <>
@@ -96,6 +103,22 @@ export const JobList = () => {
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-[30px]">
+        <select
+          name=""
+          className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]"
+          onChange={handleChange}
+        >
+          {Array(totalPage)
+            .fill("")
+            .map((item, index) => (
+              <option key={index} value={index + 1}>
+                Trang {index + 1}
+              </option>
+            ))}
+        </select>
       </div>
     </>
   );
