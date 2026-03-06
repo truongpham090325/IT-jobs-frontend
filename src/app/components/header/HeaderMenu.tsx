@@ -16,22 +16,44 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
           link: "#",
           children: [
             {
-              name: "ReactJS",
-              link: "#",
+              name: "HTML5",
+              link: "/search?language=HTML5",
             },
             {
-              name: "NodeJS",
-              link: "#",
+              name: "CSS3",
+              link: "/search?language=CSS3",
+            },
+            {
+              name: "Javascript",
+              link: "/search?language=Javascript",
+            },
+            {
+              name: "ReactJs",
+              link: "/search?language=ReactJs",
+            },
+            {
+              name: "NodeJs",
+              link: "/search?language=NodeJs",
             },
           ],
         },
         {
-          name: "Việc làm IT theo công ty",
-          link: "#",
-        },
-        {
           name: "Việc làm IT theo thành phố",
           link: "#",
+          children: [
+            {
+              name: "Hà Nội",
+              link: "/search?language=Hà Nội",
+            },
+            {
+              name: "Đà Nẵng",
+              link: "/search?language=Đà Nẵng",
+            },
+            {
+              name: "Hồ Chí Minh",
+              link: "/search?language=Hồ Chí Minh",
+            },
+          ],
         },
       ],
     },
@@ -41,15 +63,19 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
       children: [
         {
           name: "FPT Software",
-          link: "#",
+          link: "/search?company=FPT Software",
         },
         {
           name: "Techcombank",
-          link: "#",
+          link: "/search?company=Techcombank",
         },
         {
           name: "MB Bank",
-          link: "#",
+          link: "/search?company=MB Bank",
+        },
+        {
+          name: "Công ty Quang Trường",
+          link: "/search?company=Công ty Quang Trường",
         },
       ],
     },
@@ -118,17 +144,17 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
                       )}
                       {menuSub1.children && (
                         <ul className="lg:absolute relative top-[0px] lg:left-[100%] left-0 lg:w-[280px] w-full bg-[#000065] hidden group-hover/sub-2:block z-[999]">
-                          {menu.children.map((menuSub2, indexSub2) => (
+                          {menuSub1.children.map((menuSub2, indexSub2) => (
                             <li
                               key={indexSub2}
                               className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096]"
                             >
-                              <a
+                              <Link
                                 href={menuSub2.link}
                                 className="text-white font-[600] text-[16px]"
                               >
                                 {menuSub2.name}
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
