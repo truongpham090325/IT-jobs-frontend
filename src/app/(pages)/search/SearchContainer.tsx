@@ -13,12 +13,14 @@ export const SearchContainer = () => {
   const keyword = searchParams.get("keyword") || "";
   const position = searchParams.get("position") || "";
   const workingForm = searchParams.get("workingForm") || "";
+  const page = searchParams.get("page") || "";
   const [jobList, setJobList] = useState<any[]>([]);
   const router = useRouter();
+  const [totalPage, setTotalPage] = useState(0);
 
   useEffect(() => {
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&position=${position}&workingForm=${workingForm}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&position=${position}&workingForm=${workingForm}&page=${page}`,
       {
         method: "GET",
       },
@@ -26,8 +28,9 @@ export const SearchContainer = () => {
       .then((res) => res.json())
       .then((data) => {
         setJobList(data.jobs);
+        setTotalPage(data.totalPage);
       });
-  }, [language, city, company, keyword, position, workingForm]);
+  }, [language, city, company, keyword, position, workingForm, page]);
 
   const handleFilterStatus = (event: any) => {
     const value = event.target.value;
@@ -47,6 +50,17 @@ export const SearchContainer = () => {
       params.set("workingForm", value);
     } else {
       params.delete("workingForm");
+    }
+    router.push(`?${params.toString()}`);
+  };
+
+  const handlePagination = (event: any) => {
+    const value = event.target.value;
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set("page", value);
+    } else {
+      params.delete("page");
     }
     router.push(`?${params.toString()}`);
   };
@@ -100,12 +114,16 @@ export const SearchContainer = () => {
 
       <div className="mt-[30px]">
         <select
-          name=""
+          onChange={handlePagination}
           className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042] outline-none"
         >
-          <option value="">Trang 1</option>
-          <option value="">Trang 2</option>
-          <option value="">Trang 3</option>
+          {Array(totalPage)
+            .fill("")
+            .map((item, index) => (
+              <option key={index} value={index + 1}>
+                Trang {index + 1}
+              </option>
+            ))}
         </select>
       </div>
     </>
