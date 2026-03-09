@@ -43,15 +43,15 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
           children: [
             {
               name: "Hà Nội",
-              link: "/search?language=Hà Nội",
+              link: "/search?city=Hà Nội",
             },
             {
               name: "Đà Nẵng",
-              link: "/search?language=Đà Nẵng",
+              link: "/search?city=Đà Nẵng",
             },
             {
               name: "Hồ Chí Minh",
-              link: "/search?language=Hồ Chí Minh",
+              link: "/search?city=Hồ Chí Minh",
             },
           ],
         },
