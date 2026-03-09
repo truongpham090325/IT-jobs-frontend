@@ -42,10 +42,10 @@ export const CardJobItem = (props: { item: any }) => {
           {item.salaryMin}$ - {item.salaryMax}$
         </div>
         <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-          <FaUserTie className="text-[16px]" /> Fresher
+          <FaUserTie className="text-[16px]" /> {item.position}
         </div>
         <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
-          <FaBriefcase className="text-[16px]" /> Tại văn phòng
+          <FaBriefcase className="text-[16px]" /> {item.workingForm}
         </div>
         <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
           <FaLocationDot className="text-[16px]" /> {item.cityName}
