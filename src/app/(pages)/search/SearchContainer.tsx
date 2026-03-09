@@ -17,6 +17,7 @@ export const SearchContainer = () => {
   const [jobList, setJobList] = useState<any[]>([]);
   const router = useRouter();
   const [totalPage, setTotalPage] = useState(0);
+  const [totalRecord, setTotalRecord] = useState(0);
 
   useEffect(() => {
     fetch(
@@ -29,6 +30,7 @@ export const SearchContainer = () => {
       .then((data) => {
         setJobList(data.jobs);
         setTotalPage(data.totalPage);
+        setTotalRecord(data.totalRecord);
       });
   }, [language, city, company, keyword, position, workingForm, page]);
 
@@ -68,7 +70,7 @@ export const SearchContainer = () => {
   return (
     <>
       <h2 className="font-[700] text-[28px] text-[#121212] mb-[30px]">
-        {jobList.length} việc làm{" "}
+        {totalRecord} việc làm{" "}
         <span className="text-[#0088FF]">
           {language} {city} {company} {keyword}
         </span>
