@@ -11,11 +11,13 @@ import {
   FaPhone,
   FaUserTie,
 } from "react-icons/fa6";
+import { Toaster, toast } from "sonner";
 
 export const CVList = () => {
   const [cvList, setCVList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [countUpdate, setCountUpdate] = useState(0);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/cv/list?page=${page}`, {
@@ -27,15 +29,42 @@ export const CVList = () => {
         setCVList(data.cvs);
         setTotalPage(data.totalPage);
       });
-  }, [page]);
+  }, [page, countUpdate]);
 
   const handlePagination = (event: any) => {
     const value = event.target.value;
     setPage(parseInt(value));
   };
 
+  const handleChangeStatus = (id: string, status: string) => {
+    const dataFinal = {
+      status: status,
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/cv/change-status/${id}`, {
+      method: "PATCH",
+      credentials: "include", // Gửi kèm theo cookie
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataFinal),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code == "error") {
+          toast.error(data.message);
+        }
+
+        if (data.code == "success") {
+          toast.success(data.message);
+          setCountUpdate(countUpdate + 1);
+        }
+      });
+  };
+
   return (
     <>
+      <Toaster richColors position="top-right" />
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
         {cvList.map((item) => {
           const position = positionList.find(
@@ -87,7 +116,7 @@ export const CVList = () => {
               <div
                 className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px]"
                 style={{
-                  color: `${item.viewed} ? "#121212" : "#FF0000"`,
+                  color: `${item.viewed ? "#121212" : "#FF0000"}`,
                 }}
               >
                 <FaEye className="text-[16px]" />{" "}
@@ -108,18 +137,22 @@ export const CVList = () => {
                 >
                   Xem
                 </Link>
-                <Link
-                  href="#"
-                  className="bg-[#9FDB7C] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]"
-                >
-                  Duyệt
-                </Link>
-                <Link
-                  href="#"
-                  className="bg-[#FF5100] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
-                >
-                  Từ chối
-                </Link>
+                {item.status != "approved" && (
+                  <button
+                    onClick={() => handleChangeStatus(item.id, "approved")}
+                    className="bg-[#9FDB7C] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]"
+                  >
+                    Duyệt
+                  </button>
+                )}
+                {item.status != "rejected" && (
+                  <button
+                    onClick={() => handleChangeStatus(item.id, "rejected")}
+                    className="bg-[#FF5100] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
+                  >
+                    Từ chối
+                  </button>
+                )}
                 <Link
                   href="#"
                   className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
