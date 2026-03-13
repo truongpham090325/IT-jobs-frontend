@@ -28,12 +28,16 @@ export const HeaderMenu = (props: { showMenu: boolean }) => {
               link: "/search?language=Javascript",
             },
             {
-              name: "ReactJs",
-              link: "/search?language=ReactJs",
+              name: "ReactJS",
+              link: "/search?language=ReactJS",
             },
             {
               name: "NodeJs",
               link: "/search?language=NodeJs",
+            },
+            {
+              name: "Java",
+              link: "/search?language=Java",
             },
           ],
         },

@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { positionList } from "@/config/variable";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaBriefcase, FaCircleCheck, FaUserTie } from "react-icons/fa6";
+import { toast, Toaster } from "sonner";
 
 export const CVList = () => {
   const [listCV, setListCV] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [countDelete, setCountDelete] = useState(0);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/cv/list?page=${page}`, {
@@ -19,16 +20,38 @@ export const CVList = () => {
       .then((data) => {
         setListCV(data.cvs);
         setTotalPage(data.totalPage);
+        setCountDelete(countDelete + 1);
       });
-  }, [page, totalPage]);
+  }, [page, totalPage, countDelete]);
 
   const handlePagination = (event: any) => {
     const value = event.target.value;
     setPage(parseInt(value));
   };
 
+  const handleDelete = (id: string) => {
+    const isConfirm = confirm("Bạn có chắc muốn xóa cv không?");
+    if (isConfirm) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/cv/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.code == "error") {
+            toast.error(data.message);
+          }
+
+          if (data.code == "success") {
+            toast.success(data.message);
+          }
+        });
+    }
+  };
+
   return (
     <>
+      <Toaster richColors position="top-right" />
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
         {listCV.map((item) => {
           const position = positionList.find(
@@ -74,18 +97,12 @@ export const CVList = () => {
                 <FaCircleCheck className="text-[16px]" /> {status?.label}
               </div>
               <div className="flex flex-wrap items-center justify-center gap-[8px] mt-[12px] mb-[20px] mx-[10px]">
-                <Link
-                  href="#"
-                  className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
-                >
-                  Xem
-                </Link>
-                <Link
-                  href="#"
+                <button
+                  onClick={() => handleDelete(item.id)}
                   className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
                 >
                   Xóa
-                </Link>
+                </button>
               </div>
             </div>
           );

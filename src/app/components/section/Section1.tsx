@@ -53,19 +53,19 @@ export const Section1 = () => {
             </div>
             <div className="flex flex-wrap gap-[10px]">
               <Link
-                href="#"
+                href={`/search?language=ReactJS`}
                 className="border border-[#414042] bg-[#121212] hover:bg-[#414042] rounded-[20px] inline-block text-[#DEDEDE] hover:text-white font-[500] text-[16px] py-[8px] px-[22px]"
               >
                 ReactJS
               </Link>
               <Link
-                href="#"
+                href={`/search?language=Javascript`}
                 className="border border-[#414042] bg-[#121212] hover:bg-[#414042] rounded-[20px] inline-block text-[#DEDEDE] hover:text-white font-[500] text-[16px] py-[8px] px-[22px]"
               >
                 Javascript
               </Link>
               <Link
-                href="#"
+                href={`/search?language=NodeJSS`}
                 className="border border-[#414042] bg-[#121212] hover:bg-[#414042] rounded-[20px] inline-block text-[#DEDEDE] hover:text-white font-[500] text-[16px] py-[8px] px-[22px]"
               >
                 NodeJS
