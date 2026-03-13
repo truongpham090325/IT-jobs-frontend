@@ -18,6 +18,7 @@ export const CVList = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [countUpdate, setCountUpdate] = useState(0);
+  const [countDelete, setCountDelete] = useState(0);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/cv/list?page=${page}`, {
@@ -29,7 +30,7 @@ export const CVList = () => {
         setCVList(data.cvs);
         setTotalPage(data.totalPage);
       });
-  }, [page, countUpdate]);
+  }, [page, countUpdate, countDelete]);
 
   const handlePagination = (event: any) => {
     const value = event.target.value;
@@ -60,6 +61,27 @@ export const CVList = () => {
           setCountUpdate(countUpdate + 1);
         }
       });
+  };
+
+  const handleDelete = (id: string) => {
+    const isConfirm = confirm("Bạn có chắc muốn xóa cv này?");
+    if (isConfirm) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/cv/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include", // Gửi kèm theo token
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.code == "error") {
+            toast.error(data.message);
+          }
+
+          if (data.code == "success") {
+            toast.success(data.message);
+            setCountDelete(countDelete + 1);
+          }
+        });
+    }
   };
 
   return (
@@ -153,12 +175,12 @@ export const CVList = () => {
                     Từ chối
                   </button>
                 )}
-                <Link
-                  href="#"
+                <button
+                  onClick={() => handleDelete(item.id)}
                   className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]"
                 >
                   Xóa
-                </Link>
+                </button>
               </div>
             </div>
           );
