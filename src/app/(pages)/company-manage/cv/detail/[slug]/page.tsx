@@ -1,12 +1,47 @@
-import { Metadata } from "next"
-import Link from "next/link"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { positionList, workingFormList } from "@/config/variable";
+import { Metadata } from "next";
+import { headers } from "next/headers";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Chi tiết CV",
   description: "Mô tả trang chi tiết CV...",
-}
+};
 
-export default function CompanyManageCVDetailPage() {
+export default async function CompanyManageCVDetailPage({
+  params,
+}: {
+  params: {
+    slug: string;
+  };
+}) {
+  const { slug } = await params;
+  const headerList = await headers(); // Lấy headers từ request
+  const cookie = headerList.get("cookie");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/company/cv/detail/${slug}`,
+    {
+      method: "GET",
+      headers: {
+        cookie: cookie || "",
+      },
+      cache: "no-store",
+    },
+  );
+  const data = await res.json();
+  let cvDetail: any = null;
+  let jobDetail: any = null;
+  if (data.code == "success") {
+    cvDetail = data.cvDetail;
+    jobDetail = data.jobDetail;
+  }
+
+  const position = positionList.find((pos) => pos.value == jobDetail.position);
+  const workingForm = workingFormList.find(
+    (work) => work.value == jobDetail.workingForm,
+  );
+
   return (
     <>
       <div className="py-[60px]">
@@ -17,38 +52,40 @@ export default function CompanyManageCVDetailPage() {
               <h2 className="sm:w-auto w-[100%] font-[700] text-[20px] text-black">
                 Thông tin CV
               </h2>
-              <Link href="#" className="font-[400] text-[14px] text-[#0088FF] underline">
+              <Link
+                href={`/company-manage/cv/list`}
+                className="font-[400] text-[14px] text-[#0088FF] underline"
+              >
                 Quay lại danh sách
               </Link>
             </div>
-            
+
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Họ tên:
-              <span className="font-[700]">
-                Lê Văn A
-              </span>
+              <span className="font-[700] ml-1">{cvDetail.fullName}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Email:
-              <span className="font-[700]">
-                levana@gmail.com
-              </span>
+              <span className="font-[700]">{cvDetail.email}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Số điện thoại:
-              <span className="font-[700]">
-                0123456789
-              </span>
+              <span className="font-[700]">{cvDetail.phone}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               File CV:
             </div>
             <div className="bg-[#D9D9D9] h-[736px]">
               {/* Preview File CV dạng PDF tại đây */}
+              <iframe
+                src={cvDetail.fileCV}
+                className="w-full h-full"
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
           {/* Hết Thông tin CV */}
-          
+
           {/* Thông tin công việc */}
           <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
             <h2 className="sm:w-auto w-[100%] font-[700] text-[20px] text-black mb-[20px]">
@@ -57,35 +94,33 @@ export default function CompanyManageCVDetailPage() {
 
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Tên công việc:
-              <span className="font-[700]">
-                Frontend Engineer (ReactJS)
-              </span>
+              <span className="font-[700] ml-1">{jobDetail.title}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Mức lương:
-              <span className="font-[700]">
-                1.000$ - 1.500$
+              <span className="font-[700] ml-1">
+                {jobDetail.salaryMin}$ - {jobDetail.salaryMax}$
               </span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Cấp bậc:
-              <span className="font-[700]">
-                Fresher
-              </span>
+              <span className="font-[700] ml-1">{position?.label}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Hình thức làm việc:
-              <span className="font-[700]">
-                Tại văn phòng
-              </span>
+              <span className="font-[700] ml-1">{workingForm?.label}</span>
             </div>
             <div className="font-[400] text-[16px] text-black mb-[10px]">
               Công nghệ:
               <span className="font-[700]">
-                HTML5, CSS3, Javascript, ReactJS
+                {jobDetail.technologies.join(", ")}
               </span>
             </div>
-            <Link href="#" className="font-[400] text-[14px] text-[#0088FF] underline">
+            <Link
+              href={`/company-manage/job/edit/${jobDetail.id}`}
+              target="_blank"
+              className="font-[400] text-[14px] text-[#0088FF] underline"
+            >
               Xem chi tiết công việc
             </Link>
           </div>
@@ -93,5 +128,5 @@ export default function CompanyManageCVDetailPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
